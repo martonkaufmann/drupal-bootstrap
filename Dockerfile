@@ -21,8 +21,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 RUN echo "<VirtualHost *:80>\n\
     ServerAdmin webmaster@localhost\n\
-    DocumentRoot /var/www/${PROJECT}\n\
-    <Directory /var/www/${PROJECT}/>\n\
+    DocumentRoot /var/www/${PROJECT}/web\n\
+    <Directory /var/www/${PROJECT}/web/>\n\
         Options Indexes FollowSymLinks\n\
         AllowOverride All\n\
         Require all granted\n\
