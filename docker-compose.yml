@@ -15,13 +15,13 @@ services:
     image: mysql:8.2.0
     restart: always
     environment:
-      MYSQL_DATABASE: drupal
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: yes
 
   bootstrap:
-    command: composer create-project drupal/recommended-project ${PROJECT}
+    command: composer create-project drupal/recommended-project:10.1.6 ${PROJECT}
     working_dir: /var/www
     build:
       context: .
