@@ -22,7 +22,7 @@ services:
 
   bootstrap:
     command: composer create-project drupal/recommended-project ${PROJECT}
-    workdir: /var/www
+    working_dir: /var/www
     build:
       context: .
       args:

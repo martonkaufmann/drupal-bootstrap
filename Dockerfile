@@ -4,7 +4,7 @@ ARG PROJECT
 
 EXPOSE 80
 
-WORKDIR /var/www/drupal
+WORKDIR /var/www/${PROJECT}
 
 RUN apt-get update &&\
     apt-get install -y git zip unzip zlib1g-dev libpng-dev
@@ -19,5 +19,14 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" &&\
     mv composer.phar /usr/local/bin/composer
 
-RUN cp drupal-default.conf /etc/apache2/sites-available/000-default.conf
-RUN sed -i 's/#PROJECT#/${PROJECT}/g' drupal-default.conf
+RUN echo "<VirtualHost *:80>\n\
+    ServerAdmin webmaster@localhost\n\
+    DocumentRoot /var/www/${PROJECT}\n\
+    <Directory /var/www/${PROJECT}/>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+    ErrorLog ${APACHE_LOG_DIR}/error.log\n\
+    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
+</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
