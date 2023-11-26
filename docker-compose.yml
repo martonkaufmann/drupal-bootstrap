@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  drupal:
+    build:
+      context: .
+      args:
+        PROJECT: ${PROJECT}
+    volumes:
+      - ./:/var/www/${PROJECT}
+    ports:
+      - "80:80"
+
+  database:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+
+  bootstrap:
+    command: composer create-project drupal/recommended-project ${PROJECT}
+    workdir: /var/www
+    build:
+      context: .
+      args:
+        PROJECT: ${PROJECT}
+    volumes:
+      - ./:/var/www
+    profiles:
+      - bootstrap
