@@ -8,6 +8,7 @@ services:
         PROJECT: ${PROJECT}
     volumes:
       - ./:/var/www/${PROJECT}
+      - ./000-default.conf:/etc/apache/sites-available/000-default.conf
     ports:
       - "80:80"
 
@@ -21,13 +22,12 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: yes
 
   bootstrap:
-    command: composer create-project drupal/recommended-project:10.1.6 ${PROJECT}
-    working_dir: /var/www
+    command: composer create-project drupal/recommended-project:10.1.6 /tmp/${PROJECT} && mv /tmp/${PROJECT}/* .
     build:
       context: .
       args:
         PROJECT: ${PROJECT}
     volumes:
-      - ./:/var/www
+      - ./:/var/www/${PROJECT}
     profiles:
       - bootstrap
