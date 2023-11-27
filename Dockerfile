@@ -2,8 +2,6 @@ FROM php:8.2.12-apache-bookworm
 
 ARG PROJECT
 
-ENV PROJECT=${PROJECT}
-
 EXPOSE 80
 
 WORKDIR /var/www/${PROJECT}

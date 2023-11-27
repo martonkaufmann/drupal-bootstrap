@@ -21,13 +21,3 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: yes
 
-  bootstrap:
-    command: composer create-project drupal/recommended-project:10.1.6 /tmp/${PROJECT} && cp -r /tmp/${PROJECT}/* .
-    build:
-      context: .
-      args:
-        PROJECT: ${PROJECT}
-    volumes:
-      - ./:/var/www/${PROJECT}
-    profiles:
-      - bootstrap
